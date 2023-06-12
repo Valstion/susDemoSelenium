@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +21,7 @@ public class seleniumTest {
         driver.findElement(By.id("checkout")).click();
         driver.findElement(By.id("first-name")).sendKeys("EGaga23r" + Math.random() * 100);
         driver.findElement(By.id("last-name")).sendKeys("Emaxerewq");
-        driver.findElement(By.id("postal-code")).sendKeys("" + Math.random() * 10000);
+        driver.findElement(By.id("postal-code")).sendKeys(String.valueOf(Math.random() * 10000));
         driver.findElement(By.id("continue")).click();
         driver.findElement(By.id("finish")).click();
     }
@@ -37,7 +38,7 @@ public void secondTest(){
     driver.findElement(By.id("checkout")).click();
     driver.findElement(By.id("first-name")).sendKeys("EGaga23r" + Math.random() * 100);
     driver.findElement(By.id("last-name")).sendKeys("Emaxerewq");
-    driver.findElement(By.id("postal-code")).sendKeys("" + Math.random() * 10000);
+    driver.findElement(By.id("postal-code")).sendKeys(String.valueOf(Math.random() * 10000));
     driver.findElement(By.id("continue")).click();
     driver.findElement(By.id("finish")).click();
 }
@@ -52,7 +53,7 @@ public void secondTest(){
         driver.findElement(By.id("checkout")).click();
         driver.findElement(By.id("first-name")).sendKeys("EGaga23r" + Math.random() * 100);
         driver.findElement(By.id("last-name")).sendKeys("Emaxerewq");
-        driver.findElement(By.id("postal-code")).sendKeys("" + Math.random() * 10000);
+        driver.findElement(By.id("postal-code")).sendKeys(String.valueOf(Math.random() * 10000));
         driver.findElement(By.id("continue")).click();
         String itemNameInCheckout = driver.findElement(By.xpath("//*[@id=\"item_4_title_link\"]/div")).getText();
         Assert.assertEquals (itemNameInCart, itemNameInCheckout);
@@ -139,11 +140,13 @@ public void afterMethod(){
     driver.findElement(By.id("react-burger-menu-btn")).click();
     driver.findElement(By.id("reset_sidebar_link")).click();
 }
-    @BeforeClass
+@BeforeClass
     public void beforeLenta(){
-        driver = new ChromeDriver();;
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(20L,TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(2L, TimeUnit.SECONDS);
         login();
 }
 @AfterClass
