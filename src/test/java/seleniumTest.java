@@ -1,9 +1,11 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 public class seleniumTest {
     public static WebDriver driver;
@@ -95,45 +97,67 @@ public void secondTest(){
         Assert.assertEquals (itemNameInCart6,redTshirt);
     }
 @Test
-public void fifthTest(){
+public void fifthTest() {
     driver.get("https://www.saucedemo.com/inventory.html");
     String backpack1 = driver.findElement(By.xpath("//*[@id=\"item_4_title_link\"]/div")).getText();
     driver.findElement(By.xpath("//*[@id=\"item_4_title_link\"]/div")).click();
     String itemNameInCart11 = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[1]")).getText();
-    Assert.assertEquals (itemNameInCart11,backpack1);
+    Assert.assertEquals(itemNameInCart11, backpack1);
     driver.get("https://www.saucedemo.com/inventory.html");
 
-    String bikeLight11= driver.findElement(By.xpath("//*[@id=\"item_0_title_link\"]/div")).getText();
+    String bikeLight11 = driver.findElement(By.xpath("//*[@id=\"item_0_title_link\"]/div")).getText();
     driver.findElement(By.xpath("//*[@id=\"item_0_title_link\"]/div")).click();
     String itemNameInCart12 = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[1]")).getText();
-    Assert.assertEquals (itemNameInCart12, bikeLight11);
+    Assert.assertEquals(itemNameInCart12, bikeLight11);
     driver.get("https://www.saucedemo.com/inventory.html");
 
-    String boltTshirt11= driver.findElement(By.xpath("//*[@id=\"item_1_title_link\"]/div")).getText();
+    String boltTshirt11 = driver.findElement(By.xpath("//*[@id=\"item_1_title_link\"]/div")).getText();
     driver.findElement(By.xpath("//*[@id=\"item_1_title_link\"]/div")).click();
     String itemNameInCart13 = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[1]")).getText();
-    Assert.assertEquals (itemNameInCart13, boltTshirt11);
+    Assert.assertEquals(itemNameInCart13, boltTshirt11);
     driver.get("https://www.saucedemo.com/inventory.html");
 
-    String fleesejacket11= driver.findElement(By.xpath("//*[@id=\"item_5_title_link\"]/div")).getText();
+    String fleesejacket11 = driver.findElement(By.xpath("//*[@id=\"item_5_title_link\"]/div")).getText();
     driver.findElement(By.xpath("//*[@id=\"item_5_title_link\"]/div")).click();
     String itemNameInCart14 = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[1]")).getText();
-    Assert.assertEquals (itemNameInCart14, fleesejacket11);
+    Assert.assertEquals(itemNameInCart14, fleesejacket11);
     driver.get("https://www.saucedemo.com/inventory.html");
 
     driver.findElement(By.id("add-to-cart-sauce-labs-onesie")).click();
-    String labsonesize11= driver.findElement(By.xpath("//*[@id=\"item_2_title_link\"]/div")).getText();
+    String labsonesize11 = driver.findElement(By.xpath("//*[@id=\"item_2_title_link\"]/div")).getText();
     driver.findElement(By.xpath("//*[@id=\"item_2_title_link\"]/div")).click();
     String itemNameInCart15 = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[1]")).getText();
-    Assert.assertEquals (itemNameInCart15, labsonesize11);
+    Assert.assertEquals(itemNameInCart15, labsonesize11);
     driver.get("https://www.saucedemo.com/inventory.html");
 
-    String redtr11= driver.findElement(By.xpath("//*[@id=\"item_3_title_link\"]/div")).getText();
+    String redtr11 = driver.findElement(By.xpath("//*[@id=\"item_3_title_link\"]/div")).getText();
     driver.findElement(By.xpath("//*[@id=\"item_3_title_link\"]/div")).click();
     String itemNameInCart16 = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[1]")).getText();
-    Assert.assertFalse (Boolean.parseBoolean(itemNameInCart16), redtr11);
+    Assert.assertFalse(Boolean.parseBoolean(itemNameInCart16), redtr11);
     driver.get("https://www.saucedemo.com/inventory.html");
 }
+    @Test
+    public void sixtTest() {
+        driver.get("https://www.saucedemo.com/inventory.html");
+        WebElement container = driver.findElement(By.className("inventory_list"));
+        List<WebElement> cards = container.findElements(By.className("inventory_item"));
+        for (WebElement card : cards) {
+            String cardTitle = card.findElement(By.className("inventory_item_name")).getText();
+            boolean containsSauce = cardTitle.toLowerCase().contains("sauce");
+            if (!containsSauce) {
+                System.out.println(cardTitle);
+            }
+        }
+        System.out.println("------------------------");
+        for (WebElement card : cards) {
+            String cardTitle = card.findElement(By.className("inventory_item_name")).getText();
+            String priceText = card.findElement(By.className("inventory_item_price")).getText();
+            double price = Double.parseDouble(priceText.replace("$", "").trim());
+            if (price > 20.0) {
+                System.out.println(cardTitle);
+            }
+        }
+    }
 @AfterMethod
 public void afterMethod(){
     driver.get("https://www.saucedemo.com/inventory.html");
